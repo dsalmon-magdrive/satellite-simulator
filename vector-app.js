@@ -211,10 +211,12 @@ resetBtn.addEventListener('click', () => {
 });
 
 helpBtn.addEventListener('click', () => {
+    console.log('Help button clicked');
     helpModal.style.display = 'block';
 });
 
 closeHelp.addEventListener('click', () => {
+    console.log('Close button clicked');
     helpModal.style.display = 'none';
 });
 
