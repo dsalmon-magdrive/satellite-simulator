@@ -31,9 +31,9 @@
     <div id="console"></div>
   </div>
 
-  <div id="helpModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background-color:rgba(0,0,0,0.7); z-index:1000; font-family:Arial, sans-serif;">
-    <div style="position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); background-color:white; padding:20px; border-radius:8px; max-width:600px; max-height:80%; overflow-y:auto; box-shadow:0 4px 8px rgba(0,0,0,0.2);">
-      <h2 style="margin-top:0;">Vector Satellite Simulator Tutorial</h2>
+  <div id="helpModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background-color:rgba(0,0,0,0.8); z-index:1000; font-family:Arial, sans-serif;">
+    <div style="position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); background-color:#111; color:#ddd; padding:20px; border-radius:8px; max-width:600px; max-height:80%; overflow-y:auto; box-shadow:0 4px 8px rgba(0,0,0,0.5); border:1px solid #333;">
+      <h2 style="margin-top:0; color:#fff;">Vector Satellite Simulator Tutorial</h2>
       <div id="helpContent">
         <h3>Overview</h3>
         <p>This simulator models a satellite starting from the center of the canvas. You can apply impulses (thrusts) at specific times with given directions and magnitudes to change its velocity. The simulation runs in real-time, showing the satellite's position and current velocity.</p>
@@ -80,7 +80,25 @@
         <h3>Technical Details</h3>
         <p>Built with HTML5 Canvas and vanilla JavaScript. No external dependencies. Runs entirely in the browser.</p>
       </div>
-      <button id="closeHelp" style="margin-top:20px; padding:10px 20px; background-color:#007bff; color:white; border:none; border-radius:4px; cursor:pointer;">Close</button>
+      <button id="closeHelp" style="margin-top:20px; padding:10px 20px; background-color:#222; color:#fff; border:1px solid #444; border-radius:4px; cursor:pointer;">Close</button>
+    </div>
+  </div>
+
+  <div id="onboardingModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background-color:rgba(0,0,0,0.8); z-index:1001; font-family:Arial, sans-serif;">
+    <div style="position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); background-color:#111; color:#ddd; padding:30px; border-radius:8px; max-width:500px; box-shadow:0 4px 8px rgba(0,0,0,0.5); border:1px solid #333;">
+      <h2 style="margin-top:0; color:#fff;">Welcome to the Satellite Simulator</h2>
+      <ul style="line-height:1.6;">
+        <li><strong>Rotate Camera:</strong> Drag with your mouse to rotate the view around the satellite.</li>
+        <li><strong>Zoom:</strong> Use mouse scroll wheel to zoom in and out.</li>
+        <li><strong>Adjust Orbit Parameters:</strong> Modify impulse values in the sidebar to change the satellite's trajectory.</li>
+        <li><strong>Run Simulation:</strong> Click "Run" to start and watch the satellite's path.</li>
+      </ul>
+      <div style="margin-top:20px; display:flex; align-items:center; gap:10px;">
+        <label style="display:flex; align-items:center; gap:5px; font-size:14px;">
+          <input type="checkbox" id="dontShowAgain"> Don't show again
+        </label>
+      </div>
+      <button id="gotItBtn" style="margin-top:20px; padding:10px 20px; background-color:#222; color:#fff; border:1px solid #444; border-radius:4px; cursor:pointer;">Got it</button>
     </div>
   </div>
 

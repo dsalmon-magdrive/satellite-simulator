@@ -15,9 +15,9 @@ const resetBtn = document.getElementById('resetBtn');
 const helpBtn = document.getElementById('helpBtn');
 const closeHelp = document.getElementById('closeHelp');
 const helpModal = document.getElementById('helpModal');
-console.log('helpBtn:', helpBtn);
-console.log('closeHelp:', closeHelp);
-console.log('helpModal:', helpModal);
+const onboardingModal = document.getElementById('onboardingModal');
+const gotItBtn = document.getElementById('gotItBtn');
+const dontShowAgain = document.getElementById('dontShowAgain');
 const simTimeSpan = document.getElementById('simTime');
 const velocitySpan = document.getElementById('velocity');
 const consoleDiv = document.getElementById('console');
@@ -214,13 +214,31 @@ resetBtn.addEventListener('click', () => {
 });
 
 helpBtn.addEventListener('click', () => {
-    console.log('Help button clicked');
     helpModal.style.display = 'block';
 });
 
 closeHelp.addEventListener('click', () => {
-    console.log('Close button clicked');
     helpModal.style.display = 'none';
+});
+
+// Onboarding modal logic
+if (!localStorage.getItem('onboardingDismissed')) {
+    onboardingModal.style.display = 'block';
+}
+
+gotItBtn.addEventListener('click', () => {
+    onboardingModal.style.display = 'none';
+    if (dontShowAgain.checked) {
+        localStorage.setItem('onboardingDismissed', 'true');
+    }
+});
+
+// ESC key to close modals
+document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+        helpModal.style.display = 'none';
+        onboardingModal.style.display = 'none';
+    }
 });
 
 // Initial draw
