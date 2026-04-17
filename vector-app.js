@@ -6,6 +6,10 @@ const ctx = canvas.getContext('2d');
 const width = canvas.width;
 const height = canvas.height;
 
+// Load satellite image
+const satelliteImg = new Image();
+satelliteImg.src = 'satellite.png';
+
 // UI elements
 const textarea = document.getElementById('impulses');
 const massInput = document.getElementById('massInput');
@@ -130,16 +134,39 @@ function draw() {
     ctx.fillRect(0, 0, width, height);
 
     // Draw satellite
-    ctx.fillStyle = '#0f0';
-    ctx.fillRect(x - 5, y - 5, 10, 10);
+    if (satelliteImg.complete && satelliteImg.naturalHeight !== 0) {
+        ctx.drawImage(satelliteImg, x - 40, y - 40, 80, 80);
+    } else {
+        // Fallback to green square if image not loaded
+        ctx.fillStyle = '#0f0';
+        ctx.fillRect(x - 7.5, y - 7.5, 15, 15);
+    }
 
-    // Draw velocity vector (optional)
+    // Draw velocity vector with arrowhead
     const {vx, vy} = sat.velocity_components();
     if (sat.velocity_magnitude > 0) {
-        ctx.strokeStyle = '#fff';
+        const scale = 10;
+        const endX = x + vx * scale;
+        const endY = y + vy * scale;
+        
+        // Draw line
+        ctx.strokeStyle = '#00ffff';
+        ctx.lineWidth = 2;
         ctx.beginPath();
         ctx.moveTo(x, y);
-        ctx.lineTo(x + vx * 10, y + vy * 10); // scale for visibility
+        ctx.lineTo(endX, endY);
+        ctx.stroke();
+        
+        // Draw arrowhead
+        const angle = Math.atan2(vy, vx);
+        const arrowLength = 8;
+        const arrowAngle = Math.PI / 6; // 30 degrees
+        
+        ctx.beginPath();
+        ctx.moveTo(endX, endY);
+        ctx.lineTo(endX - arrowLength * Math.cos(angle - arrowAngle), endY - arrowLength * Math.sin(angle - arrowAngle));
+        ctx.moveTo(endX, endY);
+        ctx.lineTo(endX - arrowLength * Math.cos(angle + arrowAngle), endY - arrowLength * Math.sin(angle + arrowAngle));
         ctx.stroke();
     }
 }
