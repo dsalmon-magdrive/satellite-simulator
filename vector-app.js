@@ -35,6 +35,47 @@ function logToScreen(message) {
 let mass = 0.1; // kg
 const DT = 0.01; // physics timestep (s)
 
+// MQTT settings
+const MQTT_BROKER = 'test.mosquitto.org';
+const MQTT_PORT = 8080;
+const MQTT_TOPIC = 'satellite/vector';
+let mqttClient = null;
+
+function setupMqtt() {
+    if (typeof mqtt === 'undefined') {
+        logToScreen('MQTT library not loaded');
+        return;
+    }
+    const mqttUrl = `ws://${MQTT_BROKER}:${MQTT_PORT}/mqtt`;
+    mqttClient = mqtt.connect(mqttUrl, { reconnectPeriod: 2000 });
+    logToScreen('MQTT connecting to ' + mqttUrl);
+
+    mqttClient.on('connect', () => {
+        logToScreen('MQTT connected to ' + mqttUrl);
+    });
+
+    mqttClient.on('error', (err) => {
+        logToScreen('MQTT error: ' + err.message);
+    });
+
+    mqttClient.on('close', () => {
+        logToScreen('MQTT disconnected');
+    });
+}
+
+function publishVelocity() {
+    if (!mqttClient || !mqttClient.connected) return;
+    const payload = JSON.stringify({
+        magnitude: sat.velocity_magnitude,
+        angle: sat.velocity_angle * 180 / Math.PI
+    });
+    mqttClient.publish(MQTT_TOPIC, payload, { qos: 0 }, (err) => {
+        if (err) {
+            logToScreen('MQTT publish failed: ' + err.message);
+        }
+    });
+}
+
 // Satellite state
 class Satellite {
     constructor(mass = 1.0, velocity_magnitude = 0.0, velocity_angle = 0.0) {
@@ -64,6 +105,8 @@ class Satellite {
 
         this.velocity_magnitude = Math.hypot(new_vx, new_vy);
         this.velocity_angle = this.velocity_magnitude !== 0 ? Math.atan2(new_vy, new_vx) : 0.0;
+
+        publishVelocity();
 
         return {magnitude: this.velocity_magnitude, angle: this.velocity_angle};
     }
@@ -206,6 +249,7 @@ function gameLoop(currentTime) {
 
     updateStatus();
     draw();
+    // publishVelocity();
 
     requestAnimationFrame(gameLoop);
 }
@@ -274,6 +318,7 @@ document.addEventListener('keydown', (e) => {
     }
 });
 
-// Initial draw
+// Initialize MQTT and initial draw
+setupMqtt();
 draw();
 updateStatus();
