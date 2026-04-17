@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Vector Satellite Simulator (HTML5)</title>
+  <link rel="stylesheet" href="vector-style.css">
+</head>
+<body>
+  <div id="sidebar">
+    <h2>Vector Impulses</h2>
+    <textarea id="impulses" spellcheck="false"></textarea>
+    <div class="buttons">
+      <button id="loadBtn">Load impulses</button>
+      <button id="runBtn">Run</button>
+      <button id="stopBtn">Stop</button>
+      <button id="resetBtn">Reset</button>
+    </div>
+    <p class="hint">Format: one impulse per line: <code>time,angle,magnitude</code></p>
+    <p class="hint">Examples:</p>
+    <pre id="examples"># time,angle,magnitude
+1.0,0,1.0
+2.0,180,1.0
+</pre>
+  </div>
+
+  <div id="main">
+    <canvas id="simCanvas" width="800" height="600"></canvas>
+    <div id="status">Time: <span id="simTime">0.00</span>s | Velocity: <span id="velocity">0.00</span> m/s</div>
+    <div id="console"></div>
+  </div>
+
+  <script src="vector-app.js"></script>
+</body>
+</html>

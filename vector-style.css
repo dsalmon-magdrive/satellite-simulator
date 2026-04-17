@@ -1,0 +1,15 @@
+* { box-sizing: border-box; }
+html,body { height: 100%; margin: 0; font-family: Arial, Helvetica, sans-serif; }
+body { display:flex; height:100vh; }
+#sidebar { width: 300px; padding: 12px; background:#111; color:#ddd; display:flex; flex-direction:column; }
+#sidebar h2 { margin: 0 0 8px 0; }
+#impulses { flex: 1 1 auto; width:100%; min-height: 160px; background:#0f0f0f; color:#eee; border:1px solid #333; padding:8px; font-family: monospace; font-size:13px; }
+.buttons { margin-top:8px; display:flex; gap:6px; }
+.buttons button { padding:6px 8px; background:#222; color:#fff; border:1px solid #444; cursor:pointer; }
+.buttons button:hover { background:#2b2b2b; }
+.hint { font-size:12px; color:#999; margin:6px 0 0 0 }
+#examples { background:#0b0b0b; color:#ccc; padding:6px; border:1px solid #222; font-size:12px; }
+#main { flex:1 1 auto; display:flex; flex-direction:column; align-items:center; justify-content:center; background:#000; position:relative; }
+#simCanvas { background:#000; display:block; margin:8px; border:1px solid #222; }
+#status { position:absolute; left:320px; top:8px; color:#ddd; background: rgba(0,0,0,0.25); padding:6px 8px; border-radius:4px; }
+#console { margin:8px; padding:8px; background:#0f0f0f; color:#eee; border:1px solid #333; font-family: monospace; font-size:12px; max-height:150px; overflow-y:auto; white-space:pre-wrap; }
