@@ -8,7 +8,7 @@ const height = canvas.height;
 
 // UI elements
 const textarea = document.getElementById('impulses');
-const loadBtn = document.getElementById('loadBtn');
+const massInput = document.getElementById('massInput');
 const runBtn = document.getElementById('runBtn');
 const stopBtn = document.getElementById('stopBtn');
 const resetBtn = document.getElementById('resetBtn');
@@ -28,7 +28,7 @@ function logToScreen(message) {
 }
 
 // Physics settings
-const MASS = 0.1; // kg
+let mass = 0.1; // kg
 const DT = 0.01; // physics timestep (s)
 
 // Satellite state
@@ -69,7 +69,7 @@ class Satellite {
     }
 }
 let x = width/2, y = height/2;
-let sat = new Satellite(MASS);
+let sat = new Satellite(mass);
 
 // Impulses
 let impulses = []; // array of {t, angle, mag}
@@ -112,7 +112,7 @@ function parseImpulsesFromText(text) {
 function resetSimulation() {
     x = width/2;
     y = height/2;
-    sat = new Satellite(MASS);
+    sat = new Satellite(mass);
     impulseIndex = 0;
     simTime = 0.0;
     accumulator = 0.0;
@@ -184,12 +184,6 @@ function gameLoop(currentTime) {
 }
 
 // Event listeners
-loadBtn.addEventListener('click', () => {
-    impulses = parseImpulsesFromText(textarea.value);
-    impulseIndex = 0;
-    logToScreen('Loaded impulses: ' + impulses.length + ' impulses');
-});
-
 runBtn.addEventListener('click', () => {
     // Auto-load impulses if not already loaded
     impulses = parseImpulsesFromText(textarea.value);
@@ -230,6 +224,18 @@ gotItBtn.addEventListener('click', () => {
     onboardingModal.style.display = 'none';
     if (dontShowAgain.checked) {
         localStorage.setItem('onboardingDismissed', 'true');
+    }
+});
+
+// Mass input change
+massInput.addEventListener('input', () => {
+    const newMass = parseFloat(massInput.value);
+    if (newMass > 0) {
+        mass = newMass;
+        sat.mass = newMass;
+        logToScreen('Mass updated to ' + newMass + ' kg');
+    } else {
+        logToScreen('Mass must be greater than 0');
     }
 });
 
