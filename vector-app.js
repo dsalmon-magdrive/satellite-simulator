@@ -12,6 +12,9 @@ const loadBtn = document.getElementById('loadBtn');
 const runBtn = document.getElementById('runBtn');
 const stopBtn = document.getElementById('stopBtn');
 const resetBtn = document.getElementById('resetBtn');
+const helpBtn = document.getElementById('helpBtn');
+const closeHelp = document.getElementById('closeHelp');
+const helpModal = document.getElementById('helpModal');
 const simTimeSpan = document.getElementById('simTime');
 const velocitySpan = document.getElementById('velocity');
 const consoleDiv = document.getElementById('console');
@@ -205,6 +208,14 @@ resetBtn.addEventListener('click', () => {
     resetSimulation();
     consoleDiv.textContent = ''; // Clear console
     logToScreen('Simulation reset');
+});
+
+helpBtn.addEventListener('click', () => {
+    helpModal.style.display = 'block';
+});
+
+closeHelp.addEventListener('click', () => {
+    helpModal.style.display = 'none';
 });
 
 // Initial draw

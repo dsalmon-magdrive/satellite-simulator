@@ -15,6 +15,7 @@
       <button id="runBtn">Run</button>
       <button id="stopBtn">Stop</button>
       <button id="resetBtn">Reset</button>
+      <button id="helpBtn">Help</button>
     </div>
     <p class="hint">Format: one impulse per line: <code>time,angle,magnitude</code></p>
     <p class="hint">Examples:</p>
@@ -28,6 +29,59 @@
     <canvas id="simCanvas" width="800" height="600"></canvas>
     <div id="status">Time: <span id="simTime">0.00</span>s | Velocity: <span id="velocity">0.00</span> m/s</div>
     <div id="console"></div>
+  </div>
+
+  <div id="helpModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background-color:rgba(0,0,0,0.7); z-index:1000; font-family:Arial, sans-serif;">
+    <div style="position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); background-color:white; padding:20px; border-radius:8px; max-width:600px; max-height:80%; overflow-y:auto; box-shadow:0 4px 8px rgba(0,0,0,0.2);">
+      <h2 style="margin-top:0;">Vector Satellite Simulator Tutorial</h2>
+      <div id="helpContent">
+        <h3>Overview</h3>
+        <p>This simulator models a satellite starting from the center of the canvas. You can apply impulses (thrusts) at specific times with given directions and magnitudes to change its velocity. The simulation runs in real-time, showing the satellite's position and current velocity.</p>
+        
+        <h3>How to Use</h3>
+        <ol>
+          <li><strong>Input Impulses</strong>: In the left sidebar, enter your impulses in the textarea. Each line should follow the format: <code>time,angle,magnitude</code>
+            <ul>
+              <li><code>time</code>: The simulation time (in seconds) when the impulse is applied.</li>
+              <li><code>angle</code>: The direction of the impulse in degrees (0° = right, 90° = up, 180° = left, 270° = down).</li>
+              <li><code>magnitude</code>: The strength of the impulse (arbitrary units).</li>
+            </ul>
+            <p>Example:</p>
+            <pre>1.0,0,1.0
+2.0,180,0.5</pre>
+          </li>
+          <li><strong>Load Impulses</strong>: Click the "Load impulses" button to parse and validate your input. Invalid lines will be skipped.</li>
+          <li><strong>Run Simulation</strong>: Click "Run" to start the simulation. The satellite will move based on the impulses.</li>
+          <li><strong>Control Simulation</strong>:
+            <ul>
+              <li><strong>Stop</strong>: Pause the simulation.</li>
+              <li><strong>Reset</strong>: Stop and reset the satellite to the starting position.</li>
+            </ul>
+          </li>
+          <li><strong>Monitor Status</strong>: The bottom shows current simulation time and velocity.</li>
+        </ol>
+        
+        <h3>Physics Notes</h3>
+        <ul>
+          <li>The satellite has a mass of 0.1 kg.</li>
+          <li>Impulses change velocity instantly (impulse = mass * delta velocity).</li>
+          <li>Simulation uses a fixed timestep for physics calculations.</li>
+          <li>Position is updated based on current velocity.</li>
+        </ul>
+        
+        <h3>Examples</h3>
+        <ul>
+          <li><strong>Hover in place</strong>: Apply equal and opposite impulses.</li>
+          <li><strong>Circular orbit</strong>: Periodic radial impulses.</li>
+          <li><strong>Escape trajectory</strong>: Strong initial impulse.</li>
+        </ul>
+        <p>Try the default example loaded on startup!</p>
+        
+        <h3>Technical Details</h3>
+        <p>Built with HTML5 Canvas and vanilla JavaScript. No external dependencies. Runs entirely in the browser.</p>
+      </div>
+      <button id="closeHelp" style="margin-top:20px; padding:10px 20px; background-color:#007bff; color:white; border:none; border-radius:4px; cursor:pointer;">Close</button>
+    </div>
   </div>
 
   <script src="vector-app.js"></script>
