@@ -1,7 +1,7 @@
 * { box-sizing: border-box; }
 html,body { height: 100%; margin: 0; font-family: Arial, Helvetica, sans-serif; }
-body { display:flex; height:100vh; }
-#sidebar { width: 300px; padding: 12px; background:#111; color:#ddd; display:flex; flex-direction:column; }
+body { display:flex; height:100vh; background: #000 url("planet-earth-at-night.jpg") center center / cover no-repeat fixed; }
+#sidebar { width: 300px; padding: 12px; background: rgba(17,17,17,0.94); color:#ddd; display:flex; flex-direction:column; }
 #sidebar h2 { margin: 0 0 8px 0; }
 #impulses { flex: 1 1 auto; width:100%; min-height: 160px; background:#0f0f0f; color:#eee; border:1px solid #333; padding:8px; font-family: monospace; font-size:13px; }
 .buttons { margin-top:8px; display:flex; gap:6px; }
@@ -9,7 +9,7 @@ body { display:flex; height:100vh; }
 .buttons button:hover { background:#2b2b2b; }
 .hint { font-size:12px; color:#999; margin:6px 0 0 0 }
 #examples { background:#0b0b0b; color:#ccc; padding:6px; border:1px solid #222; font-size:12px; }
-#main { flex:1 1 auto; display:flex; flex-direction:column; align-items:center; justify-content:flex-start; background:#000; position:relative; padding-top:12px; }
+#main { flex:1 1 auto; display:flex; flex-direction:column; align-items:center; justify-content:flex-start; position:relative; padding-top:12px; }
 #mainHeader { width:960px; max-width:calc(100% - 24px); display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; }
 #pageTitle { color:#fff; font-size:1.5rem; font-weight:700; }
 #logo { max-height:48px; width:auto; }
