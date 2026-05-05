@@ -179,9 +179,9 @@ function updatePhysics(dt) {
     while (impulseIndex < impulses.length && simTime >= impulses[impulseIndex].t) {
         const imp = impulses[impulseIndex];
         // Add 90 degrees to convert from "0 degrees = up" to standard math angles
-        const angleInRadians = (imp.angle + 90) * Math.PI / 180;
+        const angleInRadians = (imp.angle - 90) * Math.PI / 180;
         sat.update_velocity(imp.mag, angleInRadians);
-        logToScreen(`Applied impulse at ${imp.t.toFixed(2)}s: angle=${imp.angle}°, mag=${imp.mag}, new velocity: ${sat.velocity_magnitude.toFixed(2)} m/s, new angle: ${((sat.velocity_angle * 180 / Math.PI - 90 + 360) % 360).toFixed(2)}°`);
+        logToScreen(`Applied impulse at ${imp.t.toFixed(2)}s: angle=${imp.angle}°, mag=${imp.mag}, new velocity: ${sat.velocity_magnitude.toFixed(2)} m/s, new angle: ${(((sat.velocity_angle * 180 / Math.PI + 450)) % 360).toFixed(2)}°`);
         impulseIndex++;
     }
 
