@@ -24,6 +24,10 @@ const gotItBtn = document.getElementById('gotItBtn');
 const dontShowAgain = document.getElementById('dontShowAgain');
 const simTimeSpan = document.getElementById('simTime');
 const velocitySpan = document.getElementById('velocity');
+const targetStatusSpan = document.getElementById('targetStatus');
+const targetXInput = document.getElementById('targetXInput');
+const targetYInput = document.getElementById('targetYInput');
+const targetRadiusInput = document.getElementById('targetRadiusInput');
 const consoleDiv = document.getElementById('console');
 
 function logToScreen(message) {
@@ -75,6 +79,13 @@ class Satellite {
 let x = width/2, y = height/2;
 let sat = new Satellite(mass);
 
+const target = {
+    x: width * 0.75,
+    y: height * 0.25,
+    radius: 30,
+    achieved: false,
+};
+
 // Impulses
 let impulses = []; // array of {t, angle, mag}
 let impulseIndex = 0;
@@ -118,23 +129,69 @@ function resetSimulation() {
     y = height/2;
     sat = new Satellite(mass);
     impulseIndex = 0;
+    target.achieved = false;
     simTime = 0.0;
     accumulator = 0.0;
     running = false;
     updateStatus();
 }
 
+function clamp(value, min, max) {
+    return Math.min(max, Math.max(min, value));
+}
+
+function updateTargetFromInputs() {
+    const xValue = parseFloat(targetXInput.value);
+    const yValue = parseFloat(targetYInput.value);
+    const radiusValue = parseFloat(targetRadiusInput.value);
+
+    if (Number.isFinite(xValue)) {
+        target.x = clamp(xValue, 0, width);
+    }
+    if (Number.isFinite(yValue)) {
+        target.y = clamp(yValue, 0, height);
+    }
+    if (Number.isFinite(radiusValue)) {
+        target.radius = clamp(radiusValue, 5, Math.min(width, height) / 2);
+    }
+
+    targetXInput.value = target.x.toFixed(0);
+    targetYInput.value = target.y.toFixed(0);
+    targetRadiusInput.value = target.radius.toFixed(0);
+}
+
 function updateStatus() {
     simTimeSpan.textContent = simTime.toFixed(2);
     velocitySpan.textContent = sat.velocity_magnitude.toFixed(2);
-    // Display velocity angle adjusted for "0 degrees = up" coordinate system
-    const displayAngle = ((sat.velocity_angle * 180 / Math.PI - 90 + 360) % 360).toFixed(2);
-    // Update any element that displays the angle if needed
+    const distance = Math.hypot(x - target.x, y - target.y);
+    targetStatusSpan.textContent = target.achieved ? 'Target reached!' : `Target distance: ${distance.toFixed(1)} px`;
+}
+
+function drawTarget() {
+    ctx.save();
+    ctx.fillStyle = target.achieved ? 'rgba(0,255,0,0.18)' : 'rgba(255,255,0,0.12)';
+    ctx.strokeStyle = target.achieved ? '#0f0' : '#ff0';
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.arc(target.x, target.y, target.radius, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.stroke();
+    ctx.beginPath();
+    ctx.arc(target.x, target.y, 4, 0, Math.PI * 2);
+    ctx.fillStyle = target.achieved ? '#0f0' : '#ff0';
+    ctx.fill();
+    ctx.restore();
+
+    ctx.fillStyle = '#fff';
+    ctx.font = '12px Arial';
+    ctx.fillText('Target', target.x + target.radius + 8, target.y - 8);
 }
 
 function draw() {
     ctx.fillStyle = '#000';
     ctx.fillRect(0, 0, width, height);
+
+    drawTarget();
 
     // Draw satellite
     if (satelliteImg.complete && satelliteImg.naturalHeight !== 0) {
@@ -193,6 +250,19 @@ function updatePhysics(dt) {
     // Wrap around edges
     x = ((x % width) + width) % width;
     y = ((y % height) + height) % height;
+
+    checkRendezvous();
+}
+
+function checkRendezvous() {
+    if (target.achieved) return;
+
+    const distance = Math.hypot(x - target.x, y - target.y);
+    if (distance <= target.radius && sat.velocity_magnitude < 0.05) {
+        target.achieved = true;
+        running = false;
+        logToScreen(`Target reached! Distance=${distance.toFixed(2)} px, speed=${sat.velocity_magnitude.toFixed(2)}. Simulation stopped.`);
+    }
 }
 
 function gameLoop(currentTime) {
@@ -217,9 +287,11 @@ function gameLoop(currentTime) {
 
 // Event listeners
 runBtn.addEventListener('click', () => {
+    updateTargetFromInputs();
     // Auto-load impulses if not already loaded
     impulses = parseImpulsesFromText(textarea.value);
     impulseIndex = 0;
+    target.achieved = false;
     logToScreen('Run clicked, loaded impulses: ' + impulses.length + ' impulses');
     if (!running) {
         running = true;
@@ -270,6 +342,10 @@ massInput.addEventListener('input', () => {
         logToScreen('Mass must be greater than 0');
     }
 });
+
+targetXInput.addEventListener('input', updateTargetFromInputs);
+targetYInput.addEventListener('input', updateTargetFromInputs);
+targetRadiusInput.addEventListener('input', updateTargetFromInputs);
 
 // ESC key to close modals
 document.addEventListener('keydown', (e) => {

@@ -4,6 +4,10 @@ body { display:flex; height:100vh; background: #000 url("planet-earth-at-night.j
 #sidebar { width: 300px; padding: 12px; background: rgba(17,17,17,0.94); color:#ddd; display:flex; flex-direction:column; }
 #sidebar h2 { margin: 0 0 8px 0; }
 #impulses { flex: 1 1 auto; width:100%; min-height: 160px; background:#0f0f0f; color:#eee; border:1px solid #333; padding:8px; font-family: monospace; font-size:13px; }
+.target-config { margin-top:12px; padding:10px; border:1px solid #333; border-radius:6px; background: rgba(15,15,15,0.95); }
+.target-config h3 { margin:0 0 8px 0; color:#ddd; font-size:14px; }
+.target-config label { display:block; color:#ccc; font-size:13px; margin-top:6px; }
+.target-config input { width:100%; background:#0f0f0f; color:#eee; border:1px solid #333; padding:4px; margin-top:4px; }
 .buttons { margin-top:8px; display:flex; gap:6px; }
 .buttons button { padding:6px 8px; background:#222; color:#fff; border:1px solid #444; cursor:pointer; }
 .buttons button:hover { background:#2b2b2b; }
