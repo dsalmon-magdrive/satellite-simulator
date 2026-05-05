@@ -8,7 +8,7 @@ This simulator models a satellite starting from the center of the canvas. You ca
 
 ## How to Use
 
-1. **Input Impulses**: In the left sidebar, enter your impulses in the textarea. Each line should follow the format: `time,angle,magnitude`
+1. **Input Impulses**: In the left sidebar, enter your impulses in the text area. Each line should follow the format: `time,angle,magnitude`
    - `time`: The simulation time (in seconds) when the impulse is applied.
    - `angle`: The direction of the impulse in degrees (0° = right, 90° = up, 180° = left, 270° = down).
    - `magnitude`: The strength of the impulse (arbitrary units).
