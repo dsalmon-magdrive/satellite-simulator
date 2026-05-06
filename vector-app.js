@@ -133,6 +133,8 @@ function resetSimulation() {
     simTime = 0.0;
     accumulator = 0.0;
     running = false;
+    draw();
+    drawTarget();
     updateStatus();
 }
 
